@@ -17,7 +17,6 @@ router.get('/celebs', (req, res, next) => {
 // GET CELEBRITY DETAIL PAGE!
 
 
-
 // CREATE A NEW CELEBRITY..
 
 router.get('/celebs/new', (req, res, next) => {

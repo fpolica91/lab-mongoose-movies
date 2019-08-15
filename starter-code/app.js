@@ -8,6 +8,8 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const session = require('express-session')
+const MongoStore = require("connect-mongo")(session)
 
 
 mongoose
@@ -45,6 +47,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
+app.use(session({
+  secret: "basic-auth-secret",
+  // maxAge refers to the expiration of the cookie in milliseconds
+  cookie: { maxAge: 60000 },
+  // this stores the session information in our mongoDB
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60  // this equals to 24 hours
+  })
+}))
+
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
@@ -57,9 +70,10 @@ app.use('/', index);
 const celeb = require('./routes/celebrities');
 app.use('/', celeb);
 
+const user = require("./routes/users")
+app.use("/", user)
 
 const mov = require('./routes/movies');
-
 app.use('/', mov)
 
 module.exports = app;
