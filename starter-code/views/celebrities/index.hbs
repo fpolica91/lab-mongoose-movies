@@ -30,8 +30,10 @@
 
 
 
+
     {{#if this.owned}}
     <a href="celebs/{{this._id}}/edit" class="btn btn-sm btn-warning"> Edit this Celebrity</a>
+    <a href="/celebs/{{this._id}}"> Celebrity Details </a>
     <form action="/celebs/{{this._id}}/delete" method="POST">
         <button>Delete</button>
     </form>

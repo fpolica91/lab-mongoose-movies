@@ -7,11 +7,10 @@ router.get("/", (req, res, next) => {
 })
 
 router.use((req, res, next) => {
-    if (req.user) {
-        next()
-    } else {
+    if (!req.user) {
         res.redirect("/login")
     }
+    next()
 })
 
 router.get("/main", (req, res, next) => {

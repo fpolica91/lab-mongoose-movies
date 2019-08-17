@@ -6,6 +6,13 @@ const Celebrity = require('../models/Celebrity')
 
 // GET ALL CELEBRITIES//
 router.get('/celebs', (req, res, next) => {
+
+    if (!req.user) {
+        req.flash('error', "please login to view profiles")
+        res.redirect('/login')
+    }
+
+
     Celebrity.find()
         .then(result => {
             let filteredCelebrities = result.map(celeb => {
