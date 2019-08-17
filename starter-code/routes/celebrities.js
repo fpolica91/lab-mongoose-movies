@@ -7,11 +7,18 @@ const Celebrity = require('../models/Celebrity')
 // GET ALL CELEBRITIES//
 router.get('/celebs', (req, res, next) => {
     Celebrity.find()
-        .then(data => {
-            res.render('celebrities/index', { data })
+        .then(result => {
+            let filteredCelebrities = result.map(celeb => {
+                if (celeb.creator.equals(req.user._id)) {
+                    celeb.owned = true
+                    return celeb;
+                } else {
+                    return celeb
+                }
+            })
+            res.render('celebrities/index', { celebrity: filteredCelebrities })
         })
-        .catch(err => console.log(err))
-
+        .catch(err => next(err))
 })
 
 // GET CELEBRITY DETAIL PAGE!
@@ -24,8 +31,20 @@ router.get('/celebs/new', (req, res, next) => {
 })
 
 router.post("/celebs/create", (req, res, next) => {
-    Celebrity.create(req.body)
-        .then(celeb => res.redirect("/celebs"))
+
+    const { firstName, lastName, occupation, catchPhrase } = req.body
+
+    Celebrity.create({
+        firstName,
+        lastName,
+        occupation,
+        catchPhrase,
+        creator: req.user._id
+    })
+        .then(celeb => {
+            req.flash("success", "Celebrity Succesfully created")
+            res.redirect("/celebs")
+        })
         .catch(err => console.log(err))
 })
 

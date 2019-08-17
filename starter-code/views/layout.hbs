@@ -6,20 +6,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{title}}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/style.css" />
+
 </head>
 
 <body>
 
-  <nav>
-    <a href="/celebs">Celebrities</a>
-    <a href="/">Home</a>
-    <a href="/celebs/new"> Add New Celebrity</a>
-    <a href="/movies">Movies</a>
-    <a href="/movies/new">Add new Movie</a>
-    <a href="/signup"> signup </a>
-    <a href="/login"> login </a>
+  {{#if error}}
+  <div style="border: 1px solid red">
+    {{error}}
+  </div>
+  {{/if}}
+  {{#if success}}
+  <div style="border: 1px solid green">
+    {{success}}
+  </div>
+  {{/if}}
+
+  <nav class="navbar navbar-light bg-light">
+
+
+    {{#if user }}
+    <p>Hello, {{user.username}}</p>
+    <ul class="nav">
+      <li class="nav-item">
+        <a href="/main" class="nav-link active"> Users Page </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/celebs">Celebrities</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/celebs/new"> Add New Celebrity</a>
+      </li>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/movies">Movies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/movies/new">Add new Movie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/logout">Log out</a>
+      </li>
+      {{else}}
+      <li class="nav-item">
+        <a class="nav-link active" href="/signup"> signup </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/login"> login </a>
+      </li>
+
+    </ul>
+    {{/if}}
   </nav>
+
 
   {{{body}}}
 

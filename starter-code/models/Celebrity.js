@@ -3,16 +3,11 @@ const Schema = moongoose.Schema
 
 
 const celebritySchema = new Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
+    firstName: String,
+    lastName: String,
     occupation: String,
-    catchPhrase: String
+    catchPhrase: String,
+    creator: { type: Schema.Types.ObjectId, ref: "User" }
 })
 
 
