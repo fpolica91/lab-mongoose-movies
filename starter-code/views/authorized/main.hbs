@@ -18,8 +18,10 @@
 
 
     <p>
+        {{#if user}}
         welcome: {{user.username}}
-
+        <a href="/featured">See Featured Films</a>
+        {{/if}}
     </p>
 
 

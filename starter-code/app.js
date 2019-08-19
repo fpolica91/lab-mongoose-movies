@@ -16,6 +16,8 @@ const User = require('./models/User')
 const bcrypt = require('bcryptjs')
 const flash = require('connect-flash')
 
+require("./config/passportconfig");
+
 
 mongoose
   .connect('mongodb://localhost/undefined', { useNewUrlParser: true })

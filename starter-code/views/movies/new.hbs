@@ -11,5 +11,12 @@
     </textarea>
     <button>Submit Movie</button>
 
+    {{#each celeb}}
+    <div>
+        <input type="checkbox" name="cast" value="{{this._id}}">
+        {{this.firstName}}
+    </div>
+    {{/each}}
+
 
 </form>

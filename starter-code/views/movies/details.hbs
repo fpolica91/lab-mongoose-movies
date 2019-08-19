@@ -5,8 +5,15 @@
         <form action="/movies/{{mov._id}}/edit" method="GET">
             <button>Edit</button>
         </form>
-
     </p>
 
+    <h5>Cast & Crew</h5>
+    <ul>
+        {{#each mov.cast}}
+
+        <li>{{this.firstName}} {{this.lastName}}</li>
+
+        {{/each}}
+    </ul>
 
 </div>

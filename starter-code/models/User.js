@@ -4,9 +4,11 @@ const Schema = moongoose.Schema
 
 const userSchema = new Schema({
     username: String,
-    password: String
+    password: String,
+    slackID: String,
+    githubID: String
 }, {
-        timestamps: true
+        timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
     })
 
 

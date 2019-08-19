@@ -9,7 +9,21 @@
 
     </textarea>
     <button>Submit Movie</button>
+    {{#each cast }}
 
+    {{#if this.included}}
+    <ul>
+        <li> <input type="checkbox" name="cast" value="{{this._id}}" checked> {{this.firstName}}
+        </li>
+    </ul>
+    {{else}}
+    <ul>
+        <li> <input type="checkbox" name="cast" value="{{this._id}}"> {{this.firstName}}
+        </li>
+    </ul>
+
+    {{/if}}
+    {{/each }}
 
 
 </form>

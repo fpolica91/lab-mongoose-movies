@@ -17,6 +17,11 @@ router.get("/main", (req, res, next) => {
     res.render("authorized/main", { user: req.user })
 })
 
+router.get("/featured", (req, res, next) => {
+    res.render("authorized/featured")
+})
+
+
 
 
 module.exports = router;

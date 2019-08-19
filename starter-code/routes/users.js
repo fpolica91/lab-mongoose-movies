@@ -34,6 +34,8 @@ router.post('/signup', (req, res, next) => {
 })
 
 
+//------- HERE WE FIRST GET THE ROUTE AND THEN USE PASSPORT METHOD TO AUTH//
+
 router.get('/login', (req, res, next) => {
     res.render('users/login')
 })
@@ -46,6 +48,28 @@ router.post('/login', passport.authenticate("local", {
     failureFlash: true,
     passReqToCallback: true
 }));
+
+
+// AUTHENTICATION USING SLACK
+router.get("/auth/slack", passport.authenticate('slack'));
+
+router.get("/auth/slack/callback",
+    passport.authenticate("slack", {
+        successRedirect: "/main",
+        failureRedirect: "/"
+    })
+)
+
+
+// AUTHENTICATION WITH GITHUB
+router.get("/auth/github", passport.authenticate('github'))
+
+router.get("/auth/github/callback",
+    passport.authenticate('github', {
+        successRedirect: "/main",
+        failureRedirect: "/"
+    })
+)
 
 
 

@@ -1,7 +1,16 @@
 const express = require('express');
 const router = express.Router()
 const Movies = require('../models/Movies');
+const Celebrity = require("../models/Celebrity")
 
+
+router.use((req, res, next) => {
+    if (!req.user) {
+        req.flash('error', "sign in or sign up to see movies")
+        res.redirect("/login")
+    }
+    next()
+})
 
 router.get('/movies', (req, res, next) => {
     Movies.find()
@@ -16,9 +25,14 @@ router.get('/movies', (req, res, next) => {
 })
 
 
-router.get('/movies/new', (req, res, next) => {
-    res.render("movies/new")
+//CREATE NEW MOVIE
 
+router.get('/movies/new', (req, res, next) => {
+    Celebrity.find()
+        .then(result => {
+            res.render("movies/new", { celeb: result })
+        })
+        .catch(err => next(err))
 })
 
 router.post("/movies/create", (req, res, next) => {
@@ -31,6 +45,9 @@ router.post("/movies/create", (req, res, next) => {
             console.log(err)
         })
 })
+
+// END OF CREATE NEW MOVIE
+
 
 
 // DELETE
@@ -48,7 +65,20 @@ router.post("/movies/:id/delete", (req, res, next) => {
 
 router.get("/movies/:id/edit", (req, res, next) => {
     Movies.findById(req.params.id)
-        .then(movie => res.render("movies/edit", { movie }))
+        .then(movie => {
+            Celebrity.find()
+                .then(celebs => {
+                    celebs.forEach(celeb => {
+                        movie.cast.forEach(celebID => {
+                            if (celebID.equals(celeb._id)) {
+                                celeb.included = true
+                            }
+                        })
+                    })
+                    res.render("movies/edit", { movie, cast: celebs })
+                })
+
+        })
 })
 
 
@@ -67,7 +97,7 @@ router.post("/movies/:id/edited", (req, res, next) => {
 
 // DISPLAY MOVIE DETAILS PAGE
 router.get('/movies/:id', (req, res, next) => {
-    Movies.findById(req.params.id)
+    Movies.findById(req.params.id).populate('cast')
         .then(mov => res.render('movies/details', { mov }))
         .catch(err => {
             next(err)
